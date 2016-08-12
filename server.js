@@ -42,11 +42,17 @@ var line_history = [];
 
 io.on('connection', function(socket) {
     for (var i in line_history) {
-        socket.emit('draw_line', {line: line_history[i]});
+        socket.emit('draw_line', line_history[i]);
     }
-    socket.on('draw_line', function(data){
-        line_history.push(data.line);
-        io.emit('draw_line', {line: data.line});
+    socket.on('draw_line', function(data) {
+    	var lineObject = {line: data.line, color: data.color, width: data.width};
+        line_history.push(lineObject);
+        io.emit('draw_line', lineObject);
+    });
+
+    socket.on('clearCanvas', function() {
+    	line_history = [];
+    	io.emit('clearCanvas', true);
     });
 });
 // launch ======================================================================
