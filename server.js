@@ -39,6 +39,7 @@ var server = http.createServer(app);
 var io = socketIo.listen(server);
 
 var line_history = [];
+var chat_history = [];
 
 io.on('connection', function(socket) {
     for (var i in line_history) {
@@ -54,7 +55,16 @@ io.on('connection', function(socket) {
     	line_history = [];
     	io.emit('clearCanvas', true);
     });
+
+    for (var i in chat_history) {
+        socket.emit('chatMessage', chat_history[i]);
+    }
+    socket.on('chatMessage', function(msg) {
+    	chat_history.push(msg);
+    	io.emit('chatMessage', msg);
+    });
 });
+
 // launch ======================================================================
 server.listen(port);
 console.log('app listening on ' + port);

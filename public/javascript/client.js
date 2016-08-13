@@ -9,8 +9,8 @@ $(function() {
    var canvas  = document.getElementById('drawing');
    var body = document.querySelector('body');
    var context = canvas.getContext('2d');
-   var width   = window.innerWidth/1.4;
-   var height  = window.innerHeight/1.4;
+   var width   = window.innerWidth/1.6;
+   var height  = window.innerHeight/1.6;
    var socket  = io.connect();
 
    // set canvas to full browser width/height
@@ -30,7 +30,7 @@ $(function() {
    };
 
    // draw line received from server
-   socket.on('draw_line', function (data) {
+   socket.on('draw_line', function(data) {
       //variables and methods to draw the line
       var line = data.line;
       context.beginPath();
@@ -66,7 +66,6 @@ $(function() {
 
    var colorUsed = "";
    var widthUsed = 1;
-   var blankCanvas = false;
 
    blueButton.addEventListener("click", function() {
       colorUsed = "blue";
